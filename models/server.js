@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const path = require("path");
 
 const connectToDB = require("../database/config.js");
 
@@ -32,11 +33,11 @@ class Server {
     this.app.use(this.paths.catalog, require("../routes/catalog.js"));
 
     if (process.env.NODE_ENV === "production") {
-      this._app.use(
+      this.app.use(
         express.static(path.join(path.join(path.resolve(), "/client/build")))
       );
 
-      this._app.get("*", (req, res) => {
+      this.app.get("*", (req, res) => {
         res.sendFile(
           path.resolve(path.resolve(), "client", "build", "index.html")
         );
